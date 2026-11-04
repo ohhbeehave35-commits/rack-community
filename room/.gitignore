@@ -1,0 +1,26 @@
+node_modules/
+.project_id
+.github_repo
+.env
+.env.*
+
+# desktop build artifacts / logs
+dist-desktop/
+.output/
+.dev.log
+.build*.log
+.dist.log
+.electron-dev.log
+.packaged.log
+.desktop-build.log
+.install*.log
+.port
+.lan.log
+.pkg*.log
+.icon-install.log
+.lanip
+.lanhost.log
+.srv8422.log
+.b.log
+.icon.log
+.bite.mjs

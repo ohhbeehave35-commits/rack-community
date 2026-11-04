@@ -1,0 +1,27 @@
+node_modules/
+.project_id
+.env
+.env.*
+.vercel/
+.tanstack/
+
+# Bubblewrap / Gradle — the Android project SOURCE is committed so the AAB can
+# be rebuilt from a clean clone; everything below is generated or secret.
+mobile/.gradle/
+mobile/build/
+mobile/app/build/
+mobile/local.properties
+mobile/manifest-checksum.txt
+
+# Signing material. Losing these means never being able to update the Play
+# listing again; leaking them means someone else can sign updates.
+*.jks
+*.keystore
+mobile/android.keystore
+mobile/KEYSTORE-README.txt
+
+# Release binaries are reproducible from the sources above.
+*.aab
+*.apk
+*.idsig
+.demo-db/

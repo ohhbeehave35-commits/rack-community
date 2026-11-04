@@ -1,0 +1,23 @@
+{
+  "schema": "somnus-demo-seed-manifest/1",
+  "dataFile": "somnus-demo-seed.json",
+  "dataSchema": "somnus-demo-seed/1",
+  "seedTag": "SYNTHETIC-SOMNUS-DEMO",
+  "demoSeat": "sdemo-owner-workshop",
+  "idPrefix": "sdemo-",
+  "sha256": "e336117e75b3e756cbaffc49a0d21eda47f18819d60ceba0fe2faf0c0b2ace02",
+  "counts": {
+    "jobs": 5,
+    "audit": 6,
+    "deliveries": 4,
+    "hooks": 2,
+    "daemon": 1
+  },
+  "tables": [
+    "somnus_jobs",
+    "somnus_audit",
+    "somnus_deliveries",
+    "somnus_hooks",
+    "somnus_daemon"
+  ]
+}

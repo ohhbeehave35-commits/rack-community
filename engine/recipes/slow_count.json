@@ -1,0 +1,1 @@
+{"action": "slow_count", "label": "Count slowly in five pieces (to try pause and resume)", "script": "samples/slow_pieces.py", "args": [], "admission": "slow_count", "peak_gb": 2}

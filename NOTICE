@@ -1,0 +1,21 @@
+Rack Community: third-party notices
+
+Dependencies are installed by npm and pip and are not bundled in this repository. Each keeps its own licence.
+The main ones, as reported by their package metadata:
+
+  engine:  fastapi (MIT), uvicorn (BSD-3-Clause), pydantic (MIT), httpx (BSD-3-Clause), pytest (MIT)
+  apps:    React, TanStack Router / Start, Vite, Tailwind CSS, Radix UI, Zustand, PGLite, node-postgres (all MIT or Apache-2.0)
+  room:    Electron (MIT), ws (MIT), node-turn (MIT)
+
+The web apps in panel/, memory/ and room/ were started from an app template. Before this release the template's
+install-page and web-app-manifest scripts, its bundled install-page assets, its environment-flag wrapper, its
+sign-in and connector code, and the tests that only exercised those files were removed. Sign-in was replaced by
+a small single-owner module written for this project (src/lib/auth in memory/ and room/).
+
+Some supporting files may still originate from the same template, and their original licence terms were not
+available when this repository was prepared: the embedded-database bootstrap and migration scripts
+(src/lib/db.ts, scripts/migrate.mjs, scripts/migration-plan.mjs, scripts/copy-pglite-*.mjs, scripts/*pglite*.mjs),
+src/lib/error-component.tsx, src/lib/utils.ts, and the UI primitives in src/components/ui. If you rely on them,
+check with the template's publisher. Open an issue if you can identify the source and we will correct this notice.
+
+This notice is an inventory, not legal advice.

@@ -1,0 +1,1 @@
+{"action": "too_big", "label": "Needs more memory than the budget allows (shows admission refusing)", "script": "samples/hello_pieces.py", "args": [], "admission": "too_big", "peak_gb": 200}

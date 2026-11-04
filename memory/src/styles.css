@@ -1,0 +1,187 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Readability floor (rule 48): nothing on screen under 16px. Tailwind's
+     text-xs and text-sm default to 12px/14px, which a working person cannot
+     read on a phone in the field. Raise both to the 16px floor; base and up are
+     already >= 16px. The tiny arbitrary pixel classes are swept to text-xs in
+     the components so they inherit this floor too. */
+  --text-xs: 1rem;
+  --text-xs--line-height: 1.4;
+  --text-sm: 1rem;
+  --text-sm--line-height: 1.45;
+
+  --color-background: #0b0c0b;
+  --color-foreground: #ecebe4;
+  --color-card: #141614;
+  --color-card-foreground: #ecebe4;
+  --color-popover: #141614;
+  --color-popover-foreground: #ecebe4;
+  --color-muted: #1c1e1c;
+  --color-muted-foreground: #8e9088;
+  --color-border: #2a2c2a;
+  --color-input: #2a2c2a;
+  --color-primary: #c5d0d8;
+  --color-primary-foreground: #0b0c0b;
+  --color-secondary: #1c1e1c;
+  --color-secondary-foreground: #ecebe4;
+  --color-accent: #222522;
+  --color-accent-foreground: #ecebe4;
+  --color-destructive: #c45c4a;
+  --color-ring: #c5d0d8;
+  --color-ok: #8fa37a;
+  --color-ok-foreground: #0b0c0b;
+  --color-warn: #c4a574;
+  --color-warn-foreground: #0b0c0b;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 18px;
+  --radius-xl: 28px;
+  --radius-2xl: 36px;
+}
+
+:root {
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-micro: 80ms;
+  --motion-quick: 150ms;
+  --motion-fast: 250ms;
+  --motion-slow: 400ms;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: var(--color-background);
+    color: var(--color-foreground);
+    scroll-padding-top: calc(var(--header-h, 7rem) + 0.75rem);
+    scroll-padding-bottom: 5.5rem;
+  }
+
+  body {
+    min-height: 100dvh;
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    font-family: var(--font-display);
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  #crash,
+  #ram,
+  #machine,
+  #locker,
+  #fan,
+  [data-scroll-target] {
+    scroll-margin-top: calc(var(--header-h, 7rem) + 0.75rem);
+  }
+}
+
+@keyframes somnus-fan-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.hit {
+  background: color-mix(in oklab, var(--color-ok) 34%, transparent);
+  border-radius: 2px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.hit-fp {
+  background: color-mix(in oklab, var(--color-destructive) 32%, transparent);
+  border-radius: 2px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.hit-uv {
+  background: color-mix(in oklab, var(--color-warn) 32%, transparent);
+  border-radius: 2px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.grain {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.04 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* Horizontal scrollers that must not show a bar — the header status strip on
+   a phone, where the alternative was clipping the role switcher off-screen.
+   Scrolling still works by touch, wheel and keyboard. */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Installed / standalone display. iOS gives the web app the full screen
+   including the area behind the home indicator, so anything pinned to an edge
+   has to pay the inset itself. */
+@supports (padding: env(safe-area-inset-left)) {
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+/* Touch input: hover styles latch on tap and stay stuck until the next tap
+   elsewhere, which reads as a bug. Let the device decide. */
+@media (hover: none) {
+  .grain {
+    background-attachment: scroll;
+  }
+}
+
+/* Respect the system setting rather than animating regardless. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

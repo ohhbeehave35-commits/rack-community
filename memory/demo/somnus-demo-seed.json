@@ -1,0 +1,176 @@
+{
+  "schema": "somnus-demo-seed/1",
+  "seedTag": "SYNTHETIC-SOMNUS-DEMO",
+  "synthetic": true,
+  "description": "One fictional week for Example Workshop (a made-up business). Every email is on the reserved .example domain. Every record id starts with sdemo- so cleanup can find exactly these rows and nothing else.",
+  "demoSeat": "sdemo-owner-workshop",
+  "idPrefix": "sdemo-",
+  "jobs": [
+    {
+      "id": "sdemo-job-full-0907",
+      "kind": "full",
+      "status": "done",
+      "actor": "daemon",
+      "at": "2026-09-07T06:00:00.000Z",
+      "ended_at": "2026-09-07T06:24:00.000Z",
+      "detail": "Full pass over the season's jobs. 148 records read, 11 proposals for the owner."
+    },
+    {
+      "id": "sdemo-job-apply-0909",
+      "kind": "apply",
+      "status": "done",
+      "actor": "owner@exampleworkshop.example",
+      "at": "2026-09-09T08:00:00.000Z",
+      "ended_at": "2026-09-09T08:06:00.000Z",
+      "detail": "Applied 9 of 11 proposals after review. Two held: the Alder countertop swap and the Harbor Street schedule."
+    },
+    {
+      "id": "sdemo-job-preview-0910",
+      "kind": "preview",
+      "status": "done",
+      "actor": "daemon",
+      "at": "2026-09-10T08:00:00.000Z",
+      "ended_at": "2026-09-10T08:12:00.000Z",
+      "detail": "Preview pass, nothing applied. 3 proposals waiting for Thursday's review."
+    },
+    {
+      "id": "sdemo-job-full-0911",
+      "kind": "full",
+      "status": "running",
+      "actor": "daemon",
+      "at": "2026-09-11T08:00:00.000Z",
+      "ended_at": null,
+      "detail": "Full pass in progress. Reading the service route and the two open builds."
+    },
+    {
+      "id": "sdemo-job-apply-0906",
+      "kind": "apply",
+      "status": "failed",
+      "actor": "daemon",
+      "at": "2026-09-06T08:00:00.000Z",
+      "ended_at": "2026-09-06T08:06:00.000Z",
+      "detail": "Refused: dual control is on and no person had reviewed the batch. Nothing was written."
+    }
+  ],
+  "audit": [
+    {
+      "id": "sdemo-aud-0907-01",
+      "at": "2026-09-07T06:30:00.000Z",
+      "actor": "daemon",
+      "action": "proposed",
+      "target": "memory:pricing",
+      "detail": "Cedar finish moved 13.25 to 13.75 a square foot on the 2026 card."
+    },
+    {
+      "id": "sdemo-aud-0909-01",
+      "at": "2026-09-09T08:03:00.000Z",
+      "actor": "owner@exampleworkshop.example",
+      "action": "approved",
+      "target": "memory:pricing",
+      "detail": "Approved the pebble rate change. Applied to the price book."
+    },
+    {
+      "id": "sdemo-aud-0909-02",
+      "at": "2026-09-09T08:04:48.000Z",
+      "actor": "owner@exampleworkshop.example",
+      "action": "rejected",
+      "target": "memory:customer:ortiz",
+      "detail": "Held the quartz swap. Wants to quote it rather than remember it as decided."
+    },
+    {
+      "id": "sdemo-aud-0909-03",
+      "at": "2026-09-09T08:05:24.000Z",
+      "actor": "owner@exampleworkshop.example",
+      "action": "approved",
+      "target": "memory:supplier",
+      "detail": "Heat pump lead time now 3 weeks from the Midtown branch."
+    },
+    {
+      "id": "sdemo-aud-0910-01",
+      "at": "2026-09-10T08:18:00.000Z",
+      "actor": "daemon",
+      "action": "proposed",
+      "target": "memory:route",
+      "detail": "Thursday route runs Eastport before Northtown since the bridge work started."
+    },
+    {
+      "id": "sdemo-aud-0906-01",
+      "at": "2026-09-06T08:06:00.000Z",
+      "actor": "daemon",
+      "action": "refused",
+      "target": "batch:apply",
+      "detail": "Dual control on, no reviewer. Batch left untouched."
+    }
+  ],
+  "deliveries": [
+    {
+      "id": "sdemo-del-0907-01",
+      "at": "2026-09-07T06:36:00.000Z",
+      "channel": "email",
+      "status": 200,
+      "target": "owner@exampleworkshop.example",
+      "body": "Monday pass: 11 proposals waiting for you.",
+      "attempts": 1,
+      "next_retry": null
+    },
+    {
+      "id": "sdemo-del-0909-01",
+      "at": "2026-09-09T08:12:00.000Z",
+      "channel": "webhook",
+      "status": 200,
+      "target": "internal:sink",
+      "body": "9 applied, 2 held.",
+      "attempts": 1,
+      "next_retry": null
+    },
+    {
+      "id": "sdemo-del-0910-01",
+      "at": "2026-09-10T08:24:00.000Z",
+      "channel": "email",
+      "status": 502,
+      "target": "office@exampleworkshop.example",
+      "body": "Preview pass: 3 proposals for Thursday.",
+      "attempts": 3,
+      "next_retry": null
+    },
+    {
+      "id": "sdemo-del-0910-02",
+      "at": "2026-09-10T09:00:00.000Z",
+      "channel": "email",
+      "status": 200,
+      "target": "office@exampleworkshop.example",
+      "body": "Preview pass: 3 proposals for Thursday. Retry after the mailbox came back.",
+      "attempts": 1,
+      "next_retry": null
+    }
+  ],
+  "hooks": [
+    {
+      "id": "sdemo-hook-0909-01",
+      "at": "2026-09-09T08:12:36.000Z",
+      "body": "{\"event\":\"apply.done\",\"applied\":9,\"held\":2,\"house\":\"Example Workshop\"}"
+    },
+    {
+      "id": "sdemo-hook-0911-01",
+      "at": "2026-09-11T08:06:00.000Z",
+      "body": "{\"event\":\"full.started\",\"reading\":[\"service route\",\"Birch build\",\"Alder build\"]}"
+    }
+  ],
+  "daemon": {
+    "armed": true,
+    "cadence": "full",
+    "frozen": false,
+    "sessions": 6,
+    "nextFull": 1789200000000,
+    "nextApply": 1789214400000,
+    "lastPulse": 1789113600000,
+    "policy": {
+      "dualControl": true,
+      "precisionFloor": 0.82,
+      "autoApply": false,
+      "deliverTo": "both",
+      "webhookUrl": "internal:sink",
+      "slaHours": 24
+    }
+  }
+}

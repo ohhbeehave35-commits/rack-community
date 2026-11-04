@@ -1,0 +1,6 @@
+{
+  "title": "Rack Community",
+  "type": "website",
+  "card": "default",
+  "description": "A control panel for jobs on a Linux box: live gauges, a durable job runner with admission control, recipes, pause and resume."
+}

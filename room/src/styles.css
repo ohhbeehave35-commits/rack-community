@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-bg: #0b0b0c;
+  --color-surface: #141416;
+  --color-raised: #1c1c1f;
+  --color-fg: #f2f1ee;
+  --color-muted: #9a9a96;
+  --color-subtle: #6e6e6a;
+  --color-border: color-mix(in oklab, var(--color-fg) 12%, transparent);
+  --color-border-strong: color-mix(in oklab, var(--color-fg) 22%, transparent);
+  --color-accent: #c8ccd4;
+  --color-accent-fg: #0b0b0c;
+  --color-ring: #c8ccd4;
+  --color-live: #b8c4b0;
+  --color-warn: #c4b49a;
+
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+
+  --font-display: "Fraunces", "Times New Roman", serif;
+  --font-sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Sans", ui-monospace, monospace;
+
+  /* Rule 7/readability floor: no rendered text under 16px (first-day walk,
+     2026-09-12). text-xs/text-sm render at 1rem instead of 12/14px. */
+  --text-xs: 1rem;
+  --text-xs--line-height: 1.5rem;
+  --text-sm: 1rem;
+  --text-sm--line-height: 1.5rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2.25rem;
+  --text-3xl: 3.25rem;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: ease-in-out;
+  --motion-quick: 150ms;
+  --motion-fast: 250ms;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html,
+  body,
+  #app {
+    min-height: 100%;
+    background: var(--color-bg);
+    color: var(--color-fg);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    line-height: 1.5;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    letter-spacing: -0.03em;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  header span.grid.h-8 {
+    background: var(--color-raised);
+    color: var(--color-fg);
+  }
+
+  header button.underline-offset-4 {
+    color: var(--color-muted);
+  }
+}
+
+@keyframes cue-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.92);
+  }
+}
+
+@keyframes role-flash {
+  0% {
+    background-color: color-mix(in oklab, var(--color-fg) 16%, var(--color-surface));
+  }
+  100% {
+    background-color: var(--color-surface);
+  }
+}
+
+.cue-lamp {
+  animation: cue-pulse 1.1s var(--ease-in-out, ease-in-out) infinite;
+}
+
+.role-cued {
+  animation: role-flash 0.9s var(--ease-out, ease-out) 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cue-lamp,
+  .role-cued {
+    animation: none;
+  }
+}

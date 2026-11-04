@@ -1,0 +1,23 @@
+node_modules/
+.output/
+.nitro/
+.vercel/
+dist/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+.env.*
+
+# the Rack's own runtime files, if you point RACK_DIR at a checkout
+jobs/
+ADMITTED.d/
+ADMISSIONS.md
+ADMISSIONS-PREVIEW.md
+HOLD
+RACK-LIVE
+STATUS
+actions.log
+actor.lock
+admit.lock
+.data/

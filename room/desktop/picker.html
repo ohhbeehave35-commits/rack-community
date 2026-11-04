@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TalkBack</title>
+    <style>
+      :root { color-scheme: dark; }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0; height: 100vh; display: flex; flex-direction: column;
+        justify-content: center; gap: 18px; padding: 34px;
+        background: #0a0a0a; color: #ededed;
+        font: 14px/1.5 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      }
+      h1 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+      p.sub { margin: 0 0 6px; color: #9a9a9a; }
+      .card {
+        border: 1px solid #262626; border-radius: 12px; padding: 16px; background: #111;
+        cursor: pointer; transition: border-color .12s, background .12s;
+      }
+      .card:hover { border-color: #3f3f3f; background: #151515; }
+      .card h2 { margin: 0 0 4px; font-size: 15px; }
+      .card small { color: #8a8a8a; }
+      .join-row { display: flex; gap: 8px; margin-top: 10px; }
+      input {
+        flex: 1; padding: 9px 11px; border-radius: 8px; border: 1px solid #333;
+        background: #0d0d0d; color: #ededed; font-size: 14px;
+      }
+      button {
+        padding: 9px 14px; border-radius: 8px; border: 0; cursor: pointer;
+        background: #f5f5f5; color: #0a0a0a; font-weight: 600;
+      }
+      button:hover { background: #fff; }
+      .err { color: #ff8080; min-height: 18px; font-size: 13px; }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h1>TalkBack</h1>
+      <p class="sub">This computer — how do you want to run it?</p>
+    </div>
+
+    <div class="card" id="host">
+      <h2>Host a room on this PC</h2>
+      <small>Runs the room here. Other PCs on this network join by this PC's address. No cloud.</small>
+    </div>
+
+    <div class="card" id="joincard">
+      <h2>Join a room</h2>
+      <small>Point this PC at a host already running on your network.</small>
+      <div class="join-row">
+        <input id="url" placeholder="192.0.2.50:8422" autocomplete="off" />
+        <button id="joinbtn">Join</button>
+      </div>
+    </div>
+
+    <div class="err" id="err"></div>
+
+    <script>
+      const err = document.getElementById("err");
+      async function choose(payload) {
+        err.textContent = "";
+        const res = await window.talkback.choose(payload);
+        if (!res || !res.ok) err.textContent = (res && res.error) || "Could not start.";
+      }
+      document.getElementById("host").addEventListener("click", () => choose({ mode: "host" }));
+      const go = () => choose({ mode: "join", url: document.getElementById("url").value });
+      document.getElementById("joinbtn").addEventListener("click", go);
+      document.getElementById("url").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") go();
+      });
+    </script>
+  </body>
+</html>

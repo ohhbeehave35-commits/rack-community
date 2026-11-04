@@ -1,0 +1,59 @@
+appId: com.rack-community.talkback
+productName: TalkBack
+directories:
+  # Downloads is a Windows Controlled-Folder-Access protected path, which blocks
+  # electron-builder's unpack rename (EPERM). Build into Local AppData instead.
+  output: dist
+  buildResources: desktop/build
+# The web app root is the project root; include the built server + shell only.
+files:
+  - desktop/main.cjs
+  - desktop/preload.cjs
+  - desktop/picker.html
+  - desktop/build/icon.ico
+  - desktop/build/icon.png
+  - package.json
+extraResources:
+  # Ship the self-contained Nitro node-server build (with the copied PGLite
+  # runtime assets) as an unpacked resource the shell spawns at runtime.
+  - from: .output
+    to: app/.output
+    filter:
+      - "**/*"
+win:
+  icon: desktop/build/icon.ico
+  target:
+    - target: nsis
+      arch:
+        - x64
+  artifactName: StingerTalkBack-Setup-${version}.${ext}
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: TalkBack
+mac:
+  # Unsigned for now — see the notarization gap note below. Build on a Mac:
+  # `npm run desktop:build && npx electron-builder --mac --config desktop/electron-builder.yml`.
+  icon: desktop/build/icon.png
+  category: public.app-category.developer-tools
+  target:
+    - target: dmg
+      arch:
+        - arm64
+        - x64
+  artifactName: StingerTalkBack-${version}-${arch}.${ext}
+# NOTARIZATION GAP: the dmg is unsigned and un-notarized, so macOS Gatekeeper
+# will block it ("cannot be opened") until we have an Apple Developer ID cert +
+# notarization (like the Windows code-signing cert). Users must right-click →
+# Open, or `xattr -dr com.apple.quarantine` the app, until then.
+linux:
+  icon: desktop/build/icon.png
+  category: Development
+  target:
+    - target: AppImage
+      arch:
+        - x64
+  artifactName: StingerTalkBack-${version}.${ext}

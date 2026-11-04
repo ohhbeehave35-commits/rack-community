@@ -1,0 +1,111 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme {
+  --font-sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --color-background: #0a0b09;
+  --color-foreground: #e8e6df;
+  --color-card: #131411;
+  --color-card-foreground: #e8e6df;
+  --color-primary: #c5d0b8;
+  --color-primary-foreground: #0a0b09;
+  --color-secondary: #1b1c18;
+  --color-secondary-foreground: #e8e6df;
+  --color-muted: #1b1c18;
+  --color-muted-foreground: #8b8d84;
+  --color-accent: #1b1c18;
+  --color-accent-foreground: #e8e6df;
+  --color-destructive: #c47a6a;
+  --color-border: #2a2c26;
+  --color-input: #2a2c26;
+  --color-ring: #c5d0b8;
+  --color-sage: #c5d0b8;
+  --color-ok: #8fa87a;
+  --color-warn: #c4a574;
+  --color-hot: #c47a6a;
+  --color-track: #6a6c64;
+
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius: 12px;
+
+  --shadow-border: 0 0 0 1px rgba(255, 255, 255, 0.08);
+  --shadow-border-hover: 0 0 0 1px rgba(255, 255, 255, 0.13);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    min-height: 100dvh;
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.range-grid {
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--color-foreground) 4%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--color-foreground) 4%, transparent) 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-position: center top;
+}
+
+.live-dot {
+  box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-ok) 70%, transparent);
+  animation: live-pulse 2s var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)) infinite;
+}
+
+@keyframes live-pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-ok) 55%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 6px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}

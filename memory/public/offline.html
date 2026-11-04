@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0B0C0B" />
+    <title>Somnus — offline</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <style>
+      :root { color-scheme: dark; }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        display: grid;
+        place-items: center;
+        padding: 24px calc(24px + env(safe-area-inset-right)) calc(24px + env(safe-area-inset-bottom))
+          calc(24px + env(safe-area-inset-left));
+        background: #0b0c0b;
+        color: #e7eaec;
+        font: 400 16px/1.6 "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      .card {
+        width: min(30rem, 100%);
+        border: 1px solid #24272a;
+        border-radius: 14px;
+        padding: 32px;
+        background: #101211;
+      }
+      .mark {
+        width: 40px; height: 40px;
+        display: grid; place-items: center;
+        border: 1px solid rgba(197, 208, 216, 0.35);
+        border-radius: 999px;
+        margin-bottom: 22px;
+      }
+      h1 {
+        margin: 0 0 10px;
+        font: 500 1.55rem/1.15 "Fraunces", Georgia, serif;
+        letter-spacing: -0.01em;
+      }
+      p { margin: 0 0 10px; color: #9aa1a6; }
+      p.last { margin-bottom: 26px; }
+      button {
+        font: inherit;
+        font-weight: 500;
+        font-size: 0.95rem;
+        color: #0b0c0b;
+        background: #c5d0d8;
+        border: 0;
+        border-radius: 8px;
+        padding: 12px 20px;
+        min-height: 44px;
+        cursor: pointer;
+      }
+      button:hover { background: #d6dfe5; }
+      .note {
+        margin: 22px 0 0;
+        font-size: 0.8rem;
+        color: #6c7378;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <div class="mark" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 32 32" fill="none">
+          <circle cx="15" cy="16" r="9" fill="#C5D0D8" />
+          <circle cx="19.5" cy="13.5" r="7.2" fill="#101211" />
+        </svg>
+      </div>
+      <h1>No connection</h1>
+      <p>Somnus can’t reach the server right now.</p>
+      <p class="last">
+        Nothing was lost. Locks, memory files and anything already gathered stay on this
+        device and will still be here when you’re back online.
+      </p>
+      <button type="button" onclick="location.reload()">Try again</button>
+      <p class="note">This page was served from your device by the Somnus service worker.</p>
+    </main>
+    <script>
+      addEventListener("online", () => location.reload());
+    </script>
+  </body>
+</html>
