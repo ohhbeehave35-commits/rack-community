@@ -2,9 +2,13 @@
   "name": "talkback-relay",
   "private": true,
   "type": "module",
-  "scripts": { "start": "node server.mjs", "test": "node --experimental-strip-types --test relay.test.ts" },
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --experimental-strip-types --test relay.test.ts"
+  },
   "dependencies": {
     "node-turn": "0.0.6",
     "ws": "8.22.1"
-  }
+  },
+  "version": "2.0.0"
 }

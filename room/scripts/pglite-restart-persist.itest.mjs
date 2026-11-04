@@ -5,8 +5,7 @@
 // this end to end: wire-auth.itest.mjs seeds a token into a FRESH temp dir
 // and boots once, which proves the auth gate, not that data outlives a
 // restart. Root cause of "TalkBack messages and calls reached nobody"
-// (Requirements/TALKBACK-REQUIREMENTS.md): the Spark's running room
-// (~/bin/start-talkback-room.sh) never sets PGLITE_DATA_DIR at all, so
+// A room started without persistent storage loses its state, so
 // EVERY restart silently wipes the Lead wire token -- this test proves the
 // var, once set, actually fixes that class of loss.
 //

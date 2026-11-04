@@ -137,7 +137,7 @@ async function main() {
         "Writing now would be lost or corrupt the store. Stop it first with:\n" +
         `  kill ${holders.join(" ")}\n` +
         "then run this command again, then start the room again with:\n" +
-        "  ~/bin/start-talkback-room.sh",
+        "  node rack.mjs up",
     );
   }
   const { PGlite } = await import("@electric-sql/pglite");

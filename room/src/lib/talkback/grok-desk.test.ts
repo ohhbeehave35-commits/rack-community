@@ -18,7 +18,7 @@ test("grok is an addressable wire desk (a message to grok lands)", () => {
   assert.ok(RECIPIENT_IDS.includes("grok"), "grok must be a valid recipient");
   assert.equal(isDeskId("grok"), true);
   assert.equal(isRecipientId("grok"), true);
-  assert.equal(DESKS.grok.label, "Bot");
+  assert.equal(DESKS.grok.label, "Wire desk");
 });
 
 test("grok cannot be picked as a human role (bite)", () => {

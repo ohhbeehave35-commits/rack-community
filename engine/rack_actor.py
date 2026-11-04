@@ -123,6 +123,7 @@ def run_job(q, job, root, lock_fd):
     env = dict(os.environ, **extra)
     env.update(RACK_JOB_ID=job['id'], RACK_RESUME_KEY=key, RACK_QUEUE_ROOT=str(q.root),
                RACK_RUN_STAMP=datetime.fromtimestamp(job['created']).strftime('%Y-%m-%d-%H%M'))
+    env.pop('RACK_OWNER_PASSWORD', None)
     env.pop('RACK_TOKEN', None)  # the API secret never reaches a worker
     q.update(job['id'], status='running', started=time.time(), deadline=None,
              detail='Waiting for worker startup.')
@@ -176,6 +177,11 @@ def process_job(q, job, root, lock_fd):
 
 
 def main():
+    # Unwind run_job finally so the owner shutdown also stops its worker group.
+    def shutdown(_signal, _frame):
+        raise SystemExit(0)
+    signal.signal(signal.SIGTERM, shutdown)
+    signal.signal(signal.SIGINT, shutdown)
     parser = argparse.ArgumentParser()
     parser.add_argument('--once', action='store_true', help='process the queue once and exit')
     opts = parser.parse_args()

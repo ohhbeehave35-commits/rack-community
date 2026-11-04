@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { markIntroDone } from "@/lib/dream/intro-status";
 
@@ -50,12 +50,14 @@ function finish(href: string) {
 }
 
 function IntroPage() {
+  const [ready, setReady] = useState(false);
+  useEffect(() => setReady(true), []);
   const [i, setI] = useState(0);
   const step = STEPS[i];
   const last = i === STEPS.length - 1;
 
   return (
-    <main className="min-h-dvh bg-background text-foreground">
+    <main data-somnus-ready={ready} className="min-h-dvh bg-background text-foreground">
       <div className="mx-auto grid min-h-dvh max-w-5xl lg:grid-cols-2">
         <div className="relative min-h-[42vw] bg-secondary lg:min-h-dvh">
         </div>

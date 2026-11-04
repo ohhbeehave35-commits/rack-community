@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 /** Where the Rack API listens. Build with VITE_RACK_API_BASE to point somewhere else. */
 export const RACK_API_BASE: string =
-  (import.meta.env.VITE_RACK_API_BASE as string | undefined) || "http://127.0.0.1:8797";
+  (import.meta.env.VITE_RACK_API_BASE as string | undefined) || "/engine";
 
 /** Poll a fetcher every `intervalMs` (default 5s). No cache layer: a handful of small JSON endpoints on a plain timer. */
 export function useRackQuery<T>(fetcher: () => Promise<T>, intervalMs = 5000) {

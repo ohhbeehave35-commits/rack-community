@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { AppView } from "./app-view";
 import { ActivityPanel } from "./activity-panel";
 import { ControlsView } from "./controls-view";
 import { JobsPanel } from "./jobs-panel";
@@ -21,12 +23,22 @@ const NAV: { id: ViewId; label: string; icon: typeof Activity }[] = [
 ];
 
 export function RackShell() {
+  const [ready, setReady] = useState(false);
+  useEffect(() => setReady(true), []);
+  const [wire, setWire] = useState(false);
+  const [tool, setTool] = useState("rack");
   const view = useRackStore((s) => s.view);
-  const setView = useRackStore((s) => s.setView);
+  const storeSetView = useRackStore((s) => s.setView);
+  const setView = (next: ViewId) => { setTool("rack"); storeSetView(next); };
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("desk") === "wire") {
+      storeSetView("jobs"); setTool("app"); setWire(true);
+    }
+  }, [storeSetView]);
   const { data: status, error } = useRackQuery(getStatus, 10000);
 
   return (
-    <div className="min-h-dvh bg-background text-foreground">
+    <div data-rack-ready={ready} className="min-h-dvh bg-background text-foreground">
       <aside className="fixed inset-y-0 left-0 z-20 hidden w-52 flex-col border-r border-border bg-background lg:flex">
         <div className="flex items-center gap-2 px-5 py-6">
           <RackMark className="size-6" />
@@ -49,7 +61,7 @@ export function RackShell() {
         </div>
         <div className="flex items-center gap-2">
           {error ? (
-            <Badge variant="default">API unreachable</Badge>
+            <Badge variant="default">{error.includes("Unlock controls") ? "Controls locked" : "API unreachable"}</Badge>
           ) : (
             <>
               <Badge variant="default">{status?.live ? "LIVE" : "DRY-RUN"}</Badge>
@@ -62,12 +74,18 @@ export function RackShell() {
 
       <main className="min-w-0 overflow-x-hidden px-4 py-6 pb-28 lg:ml-52 lg:px-8 lg:pb-12">
         <div className="mx-auto min-w-0 max-w-6xl">
+          {(view === "jobs" || view === "recipes") ? <div role="tablist" aria-label={view === "jobs" ? "Jobs tools" : "Recipe tools"} className="mb-4 flex gap-2">
+            <button role="tab" aria-selected={tool === "rack"} className="rounded border px-4 py-2 aria-selected:bg-secondary" onClick={() => setTool("rack")}>{view === "jobs" ? "Rack jobs" : "Rack recipes"}</button>
+            <button role="tab" aria-selected={tool === "app"} className="rounded border px-4 py-2 aria-selected:bg-secondary" onClick={() => setTool("app")}>{view === "jobs" ? "TalkBack" : "Somnus"}</button>
+          </div> : null}
+          {tool === "app" && (view === "jobs" || view === "recipes") ? <AppView app={view === "jobs" ? "TalkBack" : "Somnus"} wire={wire} /> : <>
           <UnlockControls />
           <ActivityPanel />
           <JobsPanel />
           {view === "recipes" ? <RecipesView /> : null}
           {view === "controls" ? <ControlsView /> : null}
           {view === "status" ? <RunStatus /> : null}
+          </> }
         </div>
       </main>
 

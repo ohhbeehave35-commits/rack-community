@@ -15,7 +15,7 @@ const manifest = JSON.parse(readFileSync(join(ROOT, "demo/somnus-demo-seed.manif
 test("manifest matches the data file: schema, hash, counts", () => {
   assert.equal(data.schema, "somnus-demo-seed/1");
   assert.equal(manifest.dataSchema, data.schema);
-  assert.equal(manifest.sha256, createHash("sha256").update(text).digest("hex"), "data changed without a new manifest");
+  assert.equal(manifest.sha256, createHash("sha256").update(text.replaceAll("\r\n", "\n")).digest("hex"), "data changed without a new manifest");
   for (const k of ["jobs", "audit", "deliveries", "hooks"]) assert.equal(manifest.counts[k], data[k].length, k);
   assert.equal(manifest.demoSeat, data.demoSeat);
 });

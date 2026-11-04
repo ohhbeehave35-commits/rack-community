@@ -1,0 +1,16 @@
+{
+  "name": "rack-community",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "bin": { "rack": "rack.mjs" },
+  "scripts": {
+    "setup": "node rack.mjs install",
+    "start": "node rack.mjs up",
+    "test": "node tools/check.mjs test",
+    "typecheck": "node tools/check.mjs typecheck",
+    "scan": "node tools/scan.mjs",
+    "screenshots": "node tools/screenshots.mjs"
+  }
+}

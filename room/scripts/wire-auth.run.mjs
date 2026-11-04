@@ -1,14 +1,13 @@
 // One command for the wire LAN-exposure invariant (rule 64). Builds the
-// node-server bundle if missing, then runs the wire-auth integration test.
+// current node-server bundle, then runs the wire-auth integration test.
 import { spawnSync } from "node:child_process";
-import { existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const npm = process.platform === "win32" ? "npm.cmd" : "npm";
 
-if (!existsSync(join(root, ".output", "server", "index.mjs"))) {
+{ // Always test the current source, never a stale bundle.
   const b = spawnSync(npm, ["run", "desktop:build"], { cwd: root, stdio: "inherit", shell: process.platform === "win32" });
   if (b.status !== 0) process.exit(b.status ?? 1);
 }

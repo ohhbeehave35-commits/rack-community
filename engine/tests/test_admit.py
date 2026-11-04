@@ -2,6 +2,9 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+import pytest
+
+pytestmark = pytest.mark.skipif(sys.platform != "linux", reason="Requires Linux flock, /proc and POSIX process groups; run on Linux or WSL2")
 
 ADMIT = Path(__file__).resolve().parents[1] / 'admit.sh'
 

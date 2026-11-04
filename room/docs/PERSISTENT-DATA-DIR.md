@@ -15,7 +15,7 @@ directory and a restart re-opens the same data, migrations included
 already-applied migration is skipped, never re-run).
 
 ```bash
-export PGLITE_DATA_DIR=/home/you/app-data   # any writable, persistent path
+export PGLITE_DATA_DIR=$HOME/app-data   # any writable, persistent path
 npm run preview                              # or the built node-server, or `vite dev`
 ```
 

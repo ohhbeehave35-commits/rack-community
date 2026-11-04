@@ -45,6 +45,7 @@ def test_no_token_configured_means_nothing_unlocks(client, monkeypatch):
     assert client.post('/unlock', json={}, headers=TOKEN).status_code == 401
 
 
+@pytest.mark.skipif(sys.platform != "linux", reason="Requires Linux fcntl, flock and POSIX process groups; run on Linux or WSL2")
 def test_recipes_and_preview(client):
     names = {r['action']: r for r in client.get('/recipes').json()['recipes']}
     assert set(names) == {'hello', 'slow_count', 'too_big'} and all(r['available'] for r in names.values())
@@ -55,6 +56,7 @@ def test_recipes_and_preview(client):
     assert client.post('/preview', json={'recipe': 'nope'}, headers=TOKEN).status_code == 400
 
 
+@pytest.mark.skipif(sys.platform != "linux", reason="Requires Linux fcntl, flock and POSIX process groups; run on Linux or WSL2")
 def test_act_validates_and_refuses_what_admission_refuses(client, rack):
     for body in ({'action': 'rm_everything', 'params': {}},
                  {'action': 'hello', 'params': {'cmd': 'ls'}},
@@ -66,6 +68,7 @@ def test_act_validates_and_refuses_what_admission_refuses(client, rack):
     assert jobs(client) == []
 
 
+@pytest.mark.skipif(sys.platform != "linux", reason="Requires Linux fcntl, flock and POSIX process groups; run on Linux or WSL2")
 def test_dry_run_records_but_changes_nothing(client, rack):
     r = client.post('/act', json={'action': 'hello', 'params': {}}, headers=TOKEN)
     assert r.status_code == 200 and r.json()['ok']
@@ -75,6 +78,7 @@ def test_dry_run_records_but_changes_nothing(client, rack):
     assert client.get('/live').json()['live'] is False
 
 
+@pytest.mark.skipif(sys.platform != "linux", reason="Requires Linux fcntl, flock and POSIX process groups; run on Linux or WSL2")
 def test_live_run_saves_every_piece_and_finishes(client, rack):
     assert client.post('/live', json={'live': True, 'who': 'tester'}, headers=TOKEN).json()['live'] is True
     client.post('/act', json={'action': 'hello', 'params': {}, 'requested_by': 'tester'}, headers=TOKEN)
@@ -86,6 +90,7 @@ def test_live_run_saves_every_piece_and_finishes(client, rack):
     assert [l for l in client.get('/actions').json()['rows'] if 'hello by tester' in l]
 
 
+@pytest.mark.skipif(sys.platform != "linux", reason="Requires Linux fcntl, flock and POSIX process groups; run on Linux or WSL2")
 def test_pause_holds_new_starts_and_resume_releases(client, rack):
     client.post('/live', json={'live': True}, headers=TOKEN)
     client.post('/act', json={'action': 'pause', 'params': {'reason': 'Taking a break'}, 'requested_by': 'tester'}, headers=TOKEN)
@@ -101,6 +106,7 @@ def test_pause_holds_new_starts_and_resume_releases(client, rack):
     assert client.post('/act', json={'action': 'hello', 'params': {}}, headers=TOKEN).status_code == 200
 
 
+@pytest.mark.skipif(sys.platform != "linux", reason="Requires Linux fcntl, flock and POSIX process groups; run on Linux or WSL2")
 def test_work_queued_before_a_pause_waits_and_then_runs(client, rack):
     client.post('/live', json={'live': True}, headers=TOKEN)
     client.post('/act', json={'action': 'hello', 'params': {}}, headers=TOKEN)
@@ -114,6 +120,7 @@ def test_work_queued_before_a_pause_waits_and_then_runs(client, rack):
     assert jobs(client)[0]['status'] == 'done'
 
 
+@pytest.mark.skipif(sys.platform != "linux", reason="Requires Linux fcntl, flock and POSIX process groups; run on Linux or WSL2")
 def test_a_stopped_job_keeps_its_saved_pieces_and_resumes(client, rack):
     client.post('/live', json={'live': True}, headers=TOKEN)
     client.post('/act', json={'action': 'slow_count', 'params': {}}, headers=TOKEN)
@@ -142,3 +149,19 @@ def test_status_stream_through_the_api(client, rack):
     got = client.get('/status/stream?limit=2', headers=TOKEN).json()
     assert [l['text'] for l in got['lines']] == ['two', 'three']
     assert client.get('/status/stream?limit=0', headers=TOKEN).status_code == 400
+
+
+def test_owner_gate_covers_reads_and_writes(client, monkeypatch):
+    import hashlib
+    import hmac
+    monkeypatch.setenv('RACK_OWNER_PASSWORD', 'ephemeral-test-password')
+    assert client.get('/system').status_code == 401
+    assert client.post('/live', json={'live': True}, headers=TOKEN).status_code == 401
+    expires = str(int(time.time()) + 60)
+    signature = hmac.new(b'ephemeral-test-password', ('rack-owner:' + expires).encode(), hashlib.sha256).hexdigest()
+    client.cookies.set('rack_owner', expires + '.' + signature)
+    assert client.get('/system').status_code == 200
+    assert client.get('/status').status_code == 401  # owner gate does not bypass controls token
+    assert client.get('/status', headers=TOKEN).status_code == 200
+    monkeypatch.setenv('RACK_OWNER_PASSWORD', 'rotated-test-password')
+    assert client.get('/system').status_code == 401

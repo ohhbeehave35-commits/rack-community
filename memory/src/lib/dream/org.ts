@@ -9,10 +9,10 @@ import type {
 } from "./types";
 
 export const ORG = {
-  name: "Northwind Marine",
-  unit: "Platform",
-  project: "Keel",
-  classification: "Internal · memory governance",
+  name: "Rack Community",
+  unit: "Local owner",
+  project: "Somnus",
+  classification: "Local memory governance",
 };
 
 export const ROLES: { id: Role; label: string; blurb: string }[] = [

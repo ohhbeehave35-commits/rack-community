@@ -80,7 +80,7 @@
     "typescript-eslint": "^8.56.1",
     "vite": "^8.2.0"
   },
-  "version": "1.0.0",
+  "version": "2.0.0",
   "license": "MIT",
   "description": "Rack Community control panel"
 }

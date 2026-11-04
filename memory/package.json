@@ -13,7 +13,7 @@
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "test:db": "node scripts/run-db-test.mjs",
-    "test": "node --test 'scripts/**/*.test.mjs' && node --experimental-strip-types --test src/lib/auth/middleware.test.ts src/lib/dream/user-data.test.ts src/lib/dream/use-sidecar-status.test.ts src/lib/dream/demo-seed.test.ts src/lib/dream/intro-status.test.ts src/lib/dream/review-fixes.test.ts src/lib/dream/memory-search.test.ts sdk/somnus-sdk/test/sdk.test.ts sdk/somnus-sdk/test/mcp.test.ts",
+    "test": "node --test \"scripts/**/*.test.mjs\" && node --experimental-strip-types --test src/lib/auth/middleware.test.ts src/lib/dream/user-data.test.ts src/lib/dream/use-sidecar-status.test.ts src/lib/dream/demo-seed.test.ts src/lib/dream/intro-status.test.ts src/lib/dream/review-fixes.test.ts src/lib/dream/memory-search.test.ts sdk/somnus-sdk/test/sdk.test.ts sdk/somnus-sdk/test/mcp.test.ts",
     "demo:seed": "node scripts/seed-demo.mjs seed",
     "demo:clean": "node scripts/seed-demo.mjs clean",
     "demo:reset": "node scripts/seed-demo.mjs reset",
@@ -97,5 +97,6 @@
     "vite": "^8.2.0"
   },
   "license": "MIT",
-  "description": "Somnus: a control plane for agent memory"
+  "description": "Somnus: a control plane for agent memory",
+  "version": "2.0.0"
 }

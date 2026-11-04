@@ -37,7 +37,7 @@ async function seedToken(dataDir) {
     "create table if not exists talkback_tokens (id serial primary key, user_id text not null, desk text not null, token_hash text not null, token_prefix text, last_used timestamptz, created_at timestamptz not null default now())",
   );
   await pg.query("insert into talkback_tokens (user_id, desk, token_hash, token_prefix) values ($1,$2,$3,$4)", [
-    "dev-user",
+    "local-owner",
     "lead",
     hash,
     VALID.slice(0, 12),
@@ -85,6 +85,7 @@ test("wire API rejects unauthenticated/forged callers and cannot mint over the w
   const dataDir = mkdtempSync(join(tmpdir(), "wire-auth-"));
   await seedToken(dataDir);
   const proc = boot(dataDir);
+  const exited = once(proc, "exit");
   try {
     await waitReady(proc);
 
@@ -118,6 +119,6 @@ test("wire API rejects unauthenticated/forged callers and cannot mint over the w
     }
   } finally {
     proc.kill();
-    await once(proc, "exit").catch(() => {});
+    await exited.catch(() => {});
   }
 });

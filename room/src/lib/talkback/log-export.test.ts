@@ -14,7 +14,7 @@ const NOW = new Date("2026-10-31T15:00:00.000Z");
 test("the log text is the exact text the Copy log button always made", () => {
   const t = buildLogText({ messages, wires, presence, now: NOW });
   assert.ok(t.startsWith("Talkback log\n2026-10-31T15:00:00.000Z\n\nWires\n"));
-  assert.match(t, /Bot|Grok/);
+  assert.match(t, /Wire desk/);
   assert.match(t, /tb_ab… {2}pulled never {2}browser listening {2}wire working/);
   assert.match(t, /Lead → Builder {2}\(chat, wire\) \[Builder, Floor looked\]\nShip it\./);
   assert.match(t, /Builder → Room {2}\(nudge\)\nDone\.\nSecond line\.\n$/);

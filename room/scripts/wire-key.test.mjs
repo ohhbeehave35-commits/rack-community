@@ -128,8 +128,9 @@ test("CLI mints a key that authenticates after reopening the store", async () =>
 test("CLI mints a key via the documented `npm run wire:key` invocation (own launcher isn't a holder)", () => {
   const dir = mkdtempSync(join(tmpdir(), "wirekey-npmrun-"));
   try {
-    const r = spawnSync("npm", ["run", "wire:key", "--", "--user", "dev-user", "--desk", "floor"], {
+    const r = spawnSync(process.platform === "win32" ? "npm.cmd" : "npm", ["run", "wire:key", "--", "--user", "dev-user", "--desk", "floor"], {
       cwd: ROOT,
+      shell: process.platform === "win32",
       env: { ...process.env, PGLITE_DATA_DIR: dir },
       encoding: "utf8",
     });
@@ -140,7 +141,7 @@ test("CLI mints a key via the documented `npm run wire:key` invocation (own laun
   }
 });
 
-test("CLI refuses while a process holds the data dir, naming the kill command", async () => {
+test("CLI refuses while a process holds the data dir, naming the kill command", { skip: process.platform !== "linux" ? "Requires Linux /proc process environments; not available on this host" : false }, async () => {
   const dir = mkdtempSync(join(tmpdir(), "wirekey-held-"));
   const holder = spawn(process.execPath, ["-e", "setInterval(()=>{},1000)"], {
     env: { PATH: process.env.PATH, PGLITE_DATA_DIR: dir },
@@ -151,7 +152,7 @@ test("CLI refuses while a process holds the data dir, naming the kill command", 
     const r = runCli(["--user", "dev-user", "--desk", "floor"], { PGLITE_DATA_DIR: dir });
     assert.notEqual(r.status, 0);
     assert.match(r.stderr, new RegExp(`kill ${holder.pid}\\b`));
-    assert.match(r.stderr, /start-talkback-room\.sh/);
+    assert.match(r.stderr, /rack\.mjs up/);
   } finally {
     holder.kill();
     rmSync(dir, { recursive: true, force: true });

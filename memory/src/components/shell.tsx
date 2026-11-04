@@ -26,6 +26,8 @@ import { markDreamHydrated, isDreamPersistHydrated, useDream } from "@/lib/dream
 import type { Role } from "@/lib/dream/types";
 import { cn } from "@/lib/utils";
 
+const embedded = import.meta.env.VITE_RACK_EMBEDDED === "1";
+
 const NAV = [
   { to: "/simple", label: "Simple", icon: Sparkles },
   { to: "/", label: "Dream", icon: Moon },
@@ -250,7 +252,7 @@ function AppShell({ children }: { children: ReactNode }) {
             </span>
             <span className="font-display text-lg tracking-tight">Somnus</span>
           </Link>
-          <nav className="ml-4 hidden items-center gap-0.5 xl:flex">
+          <nav className={embedded ? "hidden" : "ml-4 hidden items-center gap-0.5 xl:flex"}>
             {NAV.map((item) => {
               const active =
                 item.to === "/"
@@ -400,7 +402,7 @@ function AppShell({ children }: { children: ReactNode }) {
         {children}
       </main>
 
-      <PhoneNav pathname={pathname} />
+      {!embedded ? <PhoneNav pathname={pathname} /> : null}
     </div>
   );
 }

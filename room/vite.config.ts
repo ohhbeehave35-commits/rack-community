@@ -2,6 +2,7 @@ import { readdirSync } from "node:fs";
 import { join } from "node:path";
 import type { Plugin } from "vite";
 import { defineConfig } from "vite";
+import { rackPlugin } from "../tools/owner-gate.mjs";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
@@ -72,6 +73,7 @@ export default defineConfig(({ command, isPreview }) => ({
   preview: { host: "127.0.0.1", port: 8081, strictPort: true },
   resolve: { tsconfigPaths: true },
   plugins: [
+    rackPlugin(),
     pgliteBootstrapPlugin(),
     pglitePreviewLibsPlugin(),
     tailwindcss(),

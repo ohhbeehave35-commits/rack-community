@@ -47,6 +47,13 @@ def _queue():
 
 @app.middleware('http')
 async def require_token(request, call_next):
+    password = os.environ.get('RACK_OWNER_PASSWORD', '')
+    if password:
+        cookie = request.cookies.get('rack_owner', '')
+        expires, _, supplied = cookie.partition('.')
+        expected_owner = hmac.new(password.encode(), ('rack-owner:' + expires).encode(), hashlib.sha256).hexdigest()
+        if not expires.isdigit() or int(expires) <= time.time() or not hmac.compare_digest(supplied, expected_owner):
+            return JSONResponse({'detail': 'Owner sign-in required.'}, status_code=401)
     if request.method == 'POST' or (request.method == 'GET' and request.url.path in LOCKED_READS):
         expected = os.environ.get('RACK_TOKEN', '')
         provided = request.headers.get('X-Rack-Token', '')

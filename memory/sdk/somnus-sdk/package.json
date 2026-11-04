@@ -1,13 +1,19 @@
 {
   "name": "@rack-community/somnus-sdk",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Read, search and score a Somnus memory folder from your own code; plus a read-only MCP server.",
   "type": "module",
   "main": "src/index.ts",
   "types": "src/index.ts",
-  "bin": { "somnus-memory-mcp": "src/bin.ts" },
-  "scripts": { "test": "node --experimental-strip-types --test test/*.test.ts" },
-  "engines": { "node": ">=22.6" },
+  "bin": {
+    "somnus-memory-mcp": "src/bin.ts"
+  },
+  "scripts": {
+    "test": "node --experimental-strip-types --test test/*.test.ts"
+  },
+  "engines": {
+    "node": ">=22.6"
+  },
   "license": "MIT",
   "private": true
 }

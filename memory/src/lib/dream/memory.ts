@@ -1,8 +1,8 @@
 import type { CleanupItem, MemoryFile } from "./types";
 
 export const PROJECT = {
-  name: "Keel",
-  slug: "-Users-ada-keel",
+  name: "Local memory",
+  slug: "local-memory",
   lastDream: "2026-08-17",
   sessionsSince: 4,
 };

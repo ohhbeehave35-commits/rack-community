@@ -57,9 +57,9 @@ export const DESKS: Record<
   },
   grok: {
     id: "grok",
-    label: "Bot",
-    desk: "Bot",
-    hint: "Bot on the wire. Not a human role — it rings and answers on its own token.",
+    label: "Wire desk",
+    desk: "Wire desk",
+    hint: "Wire desk. Not a human role — it rings and answers on its own token.",
   },
   assistant: {
     id: "assistant",

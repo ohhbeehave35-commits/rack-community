@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.0.0 - 2026-11-04
+
+- One install and owner: `./rack install && ./rack up`, persistent local databases, loopback binding, readiness and grouped shutdown.
+- One panel: TalkBack in Jobs, Somnus in Recipes, with all four Rack views retained. Component manuals now live in the root README.
+- Wire desk label and redirects from legacy Grok URLs; stored desk IDs and keys remain compatible.
+- Tests green on the available host with explicit Linux dependency skips; desktop integration always rebuilds current code. Portable npm invocation and LF-canonical seed hash.
+- Optional owner password gate via RACK_OWNER_PASSWORD; off by default, shared local session, engine controls token still required.
+- Reproducible privacy scan and nine 1440px panel screenshots.
+
 ## 1.0.0 - 2026-11-04
 
 First public release.

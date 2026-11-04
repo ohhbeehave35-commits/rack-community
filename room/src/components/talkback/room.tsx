@@ -183,8 +183,10 @@ export function TalkbackRoom() {
 }
 
 function DeskPicker({ onPick }: { onPick: (id: DeskId) => void }) {
+  const [ready, setReady] = useState(false);
+  useEffect(() => setReady(true), []);
   return (
-    <main className="mx-auto flex min-h-dvh max-w-5xl flex-col justify-center px-5 py-12 sm:px-8">
+    <main data-room-ready={ready} className="mx-auto flex min-h-dvh max-w-5xl flex-col justify-center px-5 py-12 sm:px-8">
       <p className="text-xs font-medium tracking-[0.22em] text-muted uppercase">
         This computer
       </p>
@@ -272,6 +274,10 @@ function RoomLive({
   const [to, setTo] = useState<RecipientId | "all">("all");
   const [status, setStatus] = useState<SeatStatus>("listening");
   const [focus, setFocus] = useState<RecipientId | "all">("all");
+  useEffect(() => {
+    const requested = new URLSearchParams(window.location.search).get("desk");
+    if (requested === "wire" || requested === "grok") setFocus("grok");
+  }, []);
   const [panel, setPanel] = useState<"line" | "desk">("line");
   const [taskTitle, setTaskTitle] = useState("");
   const [taskSeat, setTaskSeat] = useState<SeatId>(
